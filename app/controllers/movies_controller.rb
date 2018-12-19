@@ -23,6 +23,15 @@ class MoviesController < ApplicationController
 
   def create
     movie = MovieWrapper.add_movie(params[:external_id])
+
+    if movie.save
+      render json: { id: movie.id }
+    else
+      render_errors(:bad_request, movie.errors.messages)
+  end
+
+
+
   end
 
   private
