@@ -21,6 +21,19 @@ class MoviesController < ApplicationController
       )
   end
 
+  def create
+    movie = MovieWrapper.construct_movie(movie_params)
+
+    if movie.save
+      render json: { id: movie.id }
+    else
+      render_errors(:bad_request, movie.errors.messages)
+  end
+
+
+
+  end
+
   private
 
   def require_movie

@@ -23,6 +23,7 @@ class MovieWrapper
     end
   end
 
+  
   private
 
   def self.construct_movie(api_result)
