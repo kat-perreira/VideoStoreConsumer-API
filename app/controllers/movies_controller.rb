@@ -17,8 +17,8 @@ class MoviesController < ApplicationController
       json: @movie.as_json(
         only: [:title, :overview, :release_date, :inventory],
         methods: [:available_inventory]
-        )
       )
+    )
   end
 
   def create
@@ -28,10 +28,7 @@ class MoviesController < ApplicationController
       render json: { id: movie.id }
     else
       render_errors(:bad_request, movie.errors.messages)
-  end
-
-
-
+    end
   end
 
   private
