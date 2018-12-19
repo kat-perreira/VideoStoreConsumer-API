@@ -21,6 +21,10 @@ class MoviesController < ApplicationController
       )
   end
 
+  def create
+    movie = MovieWrapper.add_movie(params[:external_id])
+  end
+
   private
 
   def require_movie
