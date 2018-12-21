@@ -4,7 +4,11 @@ class RentalsController < ApplicationController
 
   # TODO: make sure that wave 2 works all the way
   def check_out
-    rental = Rental.new(movie: @movie, customer: @customer, due_date: params[:due_date])
+    rental = Rental.new(
+      movie: @movie,
+      customer: @customer,
+      due_date: Date.today + 7
+    )
 
     if rental.save
       render status: :ok, json: {}
@@ -22,7 +26,9 @@ class RentalsController < ApplicationController
         }
       }
     end
+
     rental.returned = true
+    
     if rental.save
       render status: :ok, json: {}
     else
@@ -33,18 +39,18 @@ class RentalsController < ApplicationController
   def overdue
     rentals = Rental.overdue.map do |rental|
       {
-          title: rental.movie.title,
-          customer_id: rental.customer_id,
-          name: rental.customer.name,
-          postal_code: rental.customer.postal_code,
-          checkout_date: rental.checkout_date,
-          due_date: rental.due_date
+        title: rental.movie.title,
+        customer_id: rental.customer_id,
+        name: rental.customer.name,
+        postal_code: rental.customer.postal_code,
+        checkout_date: rental.checkout_date,
+        due_date: rental.due_date
       }
     end
     render status: :ok, json: rentals
   end
 
-private
+  private
   # TODO: make error payloads arrays
   def require_movie
     @movie = Movie.find_by title: params[:title]
