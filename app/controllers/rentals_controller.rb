@@ -7,7 +7,7 @@ class RentalsController < ApplicationController
     rental = Rental.new(
       movie: @movie,
       customer: @customer,
-      due_date: Date.today + 7
+      due_date: params[:due_date]
     )
 
     if rental.save
@@ -28,7 +28,7 @@ class RentalsController < ApplicationController
     end
 
     rental.returned = true
-    
+
     if rental.save
       render status: :ok, json: {}
     else

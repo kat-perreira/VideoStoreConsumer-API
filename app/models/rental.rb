@@ -8,6 +8,7 @@ class Rental < ApplicationRecord
 
   after_initialize :set_checkout_date
   after_initialize :set_returned
+  after_initialize :set_due_date
 
 
   def self.first_outstanding(movie, customer)
@@ -19,11 +20,16 @@ class Rental < ApplicationRecord
   end
 
 private
+
   def due_date_in_future
     return unless self.due_date
     unless due_date > Date.today
       errors.add(:due_date, "Must be in the future")
     end
+  end
+
+  def set_due_date
+    self.due_date ||= Date.today + 7
   end
 
   def set_checkout_date
